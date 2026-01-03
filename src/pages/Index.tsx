@@ -11,15 +11,17 @@ export default function Index() {
   const [activeTab, setActiveTab] = useState('home');
 
   const products = [
-    { id: 1, name: 'Премиум подписка', price: 999, category: 'Подписки', emoji: '⭐' },
-    { id: 2, name: 'Игровая валюта', price: 299, category: 'Игры', emoji: '💎' },
-    { id: 3, name: 'Стикерпак', price: 149, category: 'Стикеры', emoji: '🎨' },
-    { id: 4, name: 'VIP статус', price: 1499, category: 'Подписки', emoji: '👑' },
-    { id: 5, name: 'Бонусные очки', price: 199, category: 'Бонусы', emoji: '🎯' },
-    { id: 6, name: 'Эксклюзивный значок', price: 499, category: 'Значки', emoji: '🏆' },
+    { id: 1, name: '50 Telegram Stars', price: 99, category: 'Stars', emoji: '⭐', discount: null },
+    { id: 2, name: '100 Telegram Stars', price: 189, category: 'Stars', emoji: '⭐', discount: '-5%' },
+    { id: 3, name: '500 Telegram Stars', price: 899, category: 'Stars', emoji: '⭐', discount: '-10%' },
+    { id: 4, name: '1000 Telegram Stars', price: 1699, category: 'Stars', emoji: '⭐', discount: '-15%' },
+    { id: 5, name: 'Telegram Premium 1 месяц', price: 299, category: 'Premium', emoji: '💎', discount: null },
+    { id: 6, name: 'Telegram Premium 3 месяца', price: 799, category: 'Premium', emoji: '💎', discount: '-11%' },
+    { id: 7, name: 'Telegram Premium 6 месяцев', price: 1499, category: 'Premium', emoji: '💎', discount: '-17%' },
+    { id: 8, name: 'Telegram Premium 12 месяцев', price: 2799, category: 'Premium', emoji: '💎', discount: '-22%' },
   ];
 
-  const categories = ['Все', 'Подписки', 'Игры', 'Стикеры', 'Бонусы', 'Значки'];
+  const categories = ['Все', 'Stars', 'Premium'];
   const [selectedCategory, setSelectedCategory] = useState('Все');
 
   const filteredProducts = selectedCategory === 'Все' 
@@ -47,10 +49,10 @@ export default function Index() {
 
           <TabsContent value="home" className="mt-0 px-4 animate-fade-in">
             <div className="bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl p-6 my-4 text-white animate-scale-in">
-              <h2 className="text-xl font-bold mb-2">Новогодняя распродажа! 🎄</h2>
-              <p className="text-sm opacity-90 mb-3">Скидки до 50% на все премиум подписки</p>
+              <h2 className="text-xl font-bold mb-2">Выгодные предложения! ⭐</h2>
+              <p className="text-sm opacity-90 mb-3">Купите Telegram Stars и Premium по лучшей цене</p>
               <Button className="bg-white text-primary hover:bg-white/90">
-                Смотреть предложения
+                Смотреть все предложения
               </Button>
             </div>
 
@@ -60,9 +62,14 @@ export default function Index() {
                 {products.slice(0, 4).map((product, idx) => (
                   <Card 
                     key={product.id} 
-                    className="p-4 hover:border-primary transition-all cursor-pointer animate-slide-up"
+                    className="p-4 hover:border-primary transition-all cursor-pointer animate-slide-up relative"
                     style={{ animationDelay: `${idx * 0.1}s` }}
                   >
+                    {product.discount && (
+                      <Badge className="absolute top-2 right-2 bg-accent text-white">
+                        {product.discount}
+                      </Badge>
+                    )}
                     <div className="text-4xl mb-2">{product.emoji}</div>
                     <h4 className="font-medium text-sm mb-1">{product.name}</h4>
                     <div className="flex items-center justify-between mt-2">
@@ -78,8 +85,8 @@ export default function Index() {
 
             <div>
               <h3 className="text-lg font-semibold mb-3">Категории</h3>
-              <div className="grid grid-cols-3 gap-3">
-                {['Подписки', 'Игры', 'Стикеры'].map((cat, idx) => (
+              <div className="grid grid-cols-2 gap-3">
+                {['Stars', 'Premium'].map((cat, idx) => (
                   <Card 
                     key={cat} 
                     className="p-4 text-center hover:border-primary transition-all cursor-pointer animate-scale-in"
@@ -90,9 +97,9 @@ export default function Index() {
                     }}
                   >
                     <div className="text-3xl mb-1">
-                      {cat === 'Подписки' ? '⭐' : cat === 'Игры' ? '🎮' : '🎨'}
+                      {cat === 'Stars' ? '⭐' : '💎'}
                     </div>
-                    <p className="text-xs font-medium">{cat}</p>
+                    <p className="text-xs font-medium">{cat === 'Stars' ? 'Telegram Stars' : 'Telegram Premium'}</p>
                   </Card>
                 ))}
               </div>
@@ -117,16 +124,21 @@ export default function Index() {
               {filteredProducts.map((product, idx) => (
                 <Card 
                   key={product.id} 
-                  className="p-4 hover:border-primary transition-all cursor-pointer animate-slide-up"
+                  className="p-4 hover:border-primary transition-all cursor-pointer animate-slide-up relative"
                   style={{ animationDelay: `${idx * 0.05}s` }}
                 >
+                  {product.discount && (
+                    <Badge className="absolute top-3 right-3 bg-accent text-white">
+                      {product.discount}
+                    </Badge>
+                  )}
                   <div className="flex items-start gap-4">
                     <div className="text-5xl">{product.emoji}</div>
                     <div className="flex-1">
                       <div className="flex items-start justify-between mb-2">
                         <div>
                           <h4 className="font-semibold">{product.name}</h4>
-                          <p className="text-sm text-muted-foreground">{product.category}</p>
+                          <p className="text-sm text-muted-foreground">{product.category === 'Stars' ? 'Telegram Stars' : 'Telegram Premium'}</p>
                         </div>
                         <span className="text-primary font-bold text-lg">{product.price} ₽</span>
                       </div>
