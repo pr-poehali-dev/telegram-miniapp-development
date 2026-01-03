@@ -35,14 +35,15 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-background pb-20">
       <div className="max-w-2xl mx-auto">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
-            <div className="p-4">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Telegram Shop
-              </h1>
-            </div>
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
+          <div className="p-4">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+              Telegram Shop
+            </h1>
           </div>
+        </div>
+
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
 
           <TabsContent value="home" className="mt-0 px-4 animate-fade-in">
             <div className="bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl p-6 my-4 text-white animate-scale-in">
