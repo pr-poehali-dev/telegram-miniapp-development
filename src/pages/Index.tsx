@@ -251,42 +251,42 @@ export default function Index() {
               </Button>
             </Card>
           </TabsContent>
-        </Tabs>
 
-        <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border">
-          <div className="max-w-2xl mx-auto">
-            <TabsList className="w-full grid grid-cols-4 h-16 bg-transparent">
-              <TabsTrigger 
-                value="home" 
-                className="flex flex-col gap-1 data-[state=active]:text-primary"
-              >
-                <Icon name="Home" size={20} />
-                <span className="text-xs">Главная</span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="catalog" 
-                className="flex flex-col gap-1 data-[state=active]:text-primary"
-              >
-                <Icon name="Grid3x3" size={20} />
-                <span className="text-xs">Каталог</span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="profile" 
-                className="flex flex-col gap-1 data-[state=active]:text-primary"
-              >
-                <Icon name="User" size={20} />
-                <span className="text-xs">Профиль</span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="support" 
-                className="flex flex-col gap-1 data-[state=active]:text-primary"
-              >
-                <Icon name="HeadphonesIcon" size={20} />
-                <span className="text-xs">Поддержка</span>
-              </TabsTrigger>
-            </TabsList>
+          <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border">
+            <div className="max-w-2xl mx-auto">
+              <TabsList className="w-full grid grid-cols-4 h-16 bg-transparent">
+                <TabsTrigger 
+                  value="home" 
+                  className="flex flex-col gap-1 data-[state=active]:text-primary"
+                >
+                  <Icon name="Home" size={20} />
+                  <span className="text-xs">Главная</span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="catalog" 
+                  className="flex flex-col gap-1 data-[state=active]:text-primary"
+                >
+                  <Icon name="Grid3x3" size={20} />
+                  <span className="text-xs">Каталог</span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="profile" 
+                  className="flex flex-col gap-1 data-[state=active]:text-primary"
+                >
+                  <Icon name="User" size={20} />
+                  <span className="text-xs">Профиль</span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="support" 
+                  className="flex flex-col gap-1 data-[state=active]:text-primary"
+                >
+                  <Icon name="HeadphonesIcon" size={20} />
+                  <span className="text-xs">Поддержка</span>
+                </TabsTrigger>
+              </TabsList>
+            </div>
           </div>
-        </div>
+        </Tabs>
       </div>
     </div>
   );
