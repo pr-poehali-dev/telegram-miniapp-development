@@ -45,7 +45,9 @@ export default function Index() {
     }
   ]);
   const [paymentUrl, setPaymentUrl] = useState<string | null>(null);
+  const [paymentId, setPaymentId] = useState<string | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCheckingPayment, setIsCheckingPayment] = useState(false);
   const { toast } = useToast();
 
   const products: Product[] = [
@@ -201,6 +203,7 @@ export default function Index() {
       if (paymentData.payment_url) {
         setOrders([newOrder, ...orders]);
         setPaymentUrl(paymentData.payment_url);
+        setPaymentId(paymentData.payment_id);
         setCart([]);
         setIsCartOpen(false);
         toast({
@@ -214,6 +217,51 @@ export default function Index() {
         description: "Не удалось создать платеж. Попробуйте позже.",
         variant: "destructive"
       });
+    }
+  };
+
+  const checkPaymentStatus = async () => {
+    if (!paymentId) return;
+
+    setIsCheckingPayment(true);
+    try {
+      const response = await fetch(
+        `https://functions.poehali.dev/606c19d1-e079-4eb1-a005-0892f3333d86?payment_id=${paymentId}`
+      );
+      const statusData = await response.json();
+
+      if (statusData.status === 'completed') {
+        toast({
+          title: "✅ Оплата успешна!",
+          description: statusData.message,
+        });
+        setOrders(orders.map(order => 
+          order.status === 'pending' ? { ...order, status: 'completed' as const } : order
+        ));
+        setPaymentUrl(null);
+        setPaymentId(null);
+      } else if (statusData.status === 'failed') {
+        toast({
+          title: "❌ Ошибка оплаты",
+          description: statusData.message,
+          variant: "destructive"
+        });
+        setPaymentUrl(null);
+        setPaymentId(null);
+      } else {
+        toast({
+          title: "⏳ Ожидаем оплату",
+          description: statusData.message,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Ошибка",
+        description: "Не удалось проверить статус оплаты",
+        variant: "destructive"
+      });
+    } finally {
+      setIsCheckingPayment(false);
     }
   };
 
@@ -659,20 +707,33 @@ export default function Index() {
                   </Button>
                 </div>
               </div>
-              <Button 
-                className="w-full" 
-                size="lg"
-                onClick={() => {
-                  window.open(paymentUrl || '', '_blank');
-                  toast({ 
-                    title: "Переход к оплате",
-                    description: "Откроется новое окно для оплаты"
-                  });
-                }}
-              >
-                <Icon name="ExternalLink" size={16} className="mr-2" />
-                Перейти к оплате
-              </Button>
+              <div className="flex gap-2">
+                <Button 
+                  className="flex-1" 
+                  size="lg"
+                  onClick={() => {
+                    window.open(paymentUrl || '', '_blank');
+                    toast({ 
+                      title: "Переход к оплате",
+                      description: "Откроется новое окно для оплаты"
+                    });
+                  }}
+                >
+                  <Icon name="ExternalLink" size={16} className="mr-2" />
+                  Перейти к оплате
+                </Button>
+                <Button 
+                  variant="outline"
+                  size="lg"
+                  onClick={checkPaymentStatus}
+                  disabled={isCheckingPayment}
+                >
+                  <Icon name={isCheckingPayment ? "Loader2" : "RefreshCw"} size={16} className={isCheckingPayment ? "animate-spin" : ""} />
+                </Button>
+              </div>
+              <p className="text-xs text-center text-muted-foreground">
+                После оплаты нажмите кнопку обновления для проверки статуса
+              </p>
             </div>
           </DialogContent>
         </Dialog>

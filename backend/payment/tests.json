@@ -19,6 +19,18 @@
       "bodyMatcher": "partial"
     },
     {
+      "name": "Check payment status",
+      "method": "GET",
+      "path": "/?payment_id=test-123",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "payment_id": "test-123",
+        "status": "string",
+        "message": "string"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
       "name": "Missing required fields",
       "method": "POST",
       "body": {
